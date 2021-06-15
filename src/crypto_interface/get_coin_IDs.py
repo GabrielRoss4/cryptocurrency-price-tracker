@@ -13,12 +13,12 @@ class GetCoinIDs(object):
             }
 
     def get_IDs(self, querystring={"status":"ACTIVE"}):
-        return requests.request("GET", self.url, headers=self.headers, params=querystring)
+        return requests.request("GET", self.url, headers=self.headers, params=querystring).json()
 
     
     def get_by_symbol(self, symbol):
 
-        cur_result = self.get_assets(querystring={"status":"ACTIVE", "symbol":symbol})
+        cur_result = self.get_IDs(querystring={"status":"ACTIVE", "symbol":symbol})
         return cur_result["id"]
 
 
@@ -29,5 +29,5 @@ class GetCoinIDs(object):
 
         Returns the id # of the coin name provided
         '''
-        cur_result = self.get_assets(querystring={"status":"ACTIVE", "name":name})
+        cur_result = self.get_IDs(querystring={"status":"ACTIVE", "name":name})
         return cur_result["id"]

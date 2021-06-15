@@ -18,11 +18,13 @@ connection = sqlite3.connect("historic-crypto-prices.db")
 cursor = connection.cursor()
 
 # Create master table if it does not exist
-cursor.execute("CREATE TABLE IF NOT EXISTS Master (all_tracked_cryptos, UNIQUE(all_tracked_cryptos))")
+cursor.execute("CREATE TABLE IF NOT EXISTS Master (all_tracked_cryptos TEXT PRIMARY KEY, UNIQUE(all_tracked_cryptos))")
 for crypto in cfg.COINS_OF_INTEREST:
     # Update with all cryptos in config not in master
-    cursor.execute(f"INSERT OR IGNORE INTO Master(all_tracked_cryptos) VALUES({crypto.full_name})")
+    cursor.execute(f"INSERT OR IGNORE INTO Master(all_tracked_cryptos) VALUES(?)", (crypto.fullname,))
+    connection.commit()
     # Create all tables from config that dont exist 
-    cursor.execute(f"CREATE TABLE IF NOT EXISTS {crypto.fullname} (current_price_usd, percent_change_24h, query_date, query_time)")
+    cursor.execute(f"CREATE TABLE IF NOT EXISTS {crypto.fullname}(current_price_usd, percent_change_24h, query_date, query_time, PRIMARY KEY(query_date, query_time))")
+    connection.commit()
 
 connection.close()

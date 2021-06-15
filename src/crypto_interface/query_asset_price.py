@@ -18,8 +18,8 @@ class QueryAssetPrice(object):
         
         '''
         query_string = {"assetId":query_id}
-        raw_response = requests.request("GET", self.url, headers=self.headers, params=query_string)
-        data = self.format_data(raw_response)
+        response = requests.request("GET", self.url, headers=self.headers, params=query_string).json()
+        data = self.format_data(response)
         return data 
 
     def format_data(self, name, raw_response):
@@ -53,7 +53,7 @@ class DataPoint(object):
     def __init__(self, coin_name=None, coin_symbol=None, cur_price=None, percent_change_day=None, date=None, time=None):
         self.coin_name = coin_name
         self.coin_symbol = coin_symbol
-        self.fullname = f"{self.coin_name} ({self.symbol})"
+        self.fullname = f"{self.coin_name}_{self.symbol}"
         self.cur_price = cur_price
         self.percent_change_day = percent_change_day
         self.date = date

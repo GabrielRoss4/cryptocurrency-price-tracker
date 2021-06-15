@@ -18,6 +18,6 @@ class GetOAuthToken(object):
             'x-rapidapi-host': "bravenewcoin.p.rapidapi.com"
             }
     def get_token(self):
-        raw_response = requests.request("POST", self.url, data=self.payload, headers=self.headers).text
-        return raw_response["access_token"]
+            response = requests.request("POST", self.url, data=self.payload, headers=self.headers).json()
+            return response["access_token"]
 
