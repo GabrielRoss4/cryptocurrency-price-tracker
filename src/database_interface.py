@@ -21,7 +21,7 @@ class DatabaseAPI(object):
         #coin_fullname = f"{datapoint.name} ({datapoint.symbol})"
         
         base_sql_cmd = f'''INSERT INTO {datapoint.fullname}(current_price_usd, percent_change_24h, query_date, query_time)
-        VALUES(?, ?, ?)'''
+        VALUES(?, ?, ?, ?)'''
 
         try:
             self.cursor.execute(base_sql_cmd, (datapoint.cur_price, datapoint.percent_change_day, datapoint.date, datapoint.time))

@@ -11,8 +11,7 @@ class CryptoAPI(object):
         pass
 
     def get_coin_data(self, coin_query)->DataPoint:
-        coin_ID = GetCoinIDs().get_by_symbol(symbol=coin_query.symbol)
-        coin_data = QueryAssetPrice().get_ticker(query_id=coin_ID)
-        coin_data.symbol = coin_query.symbol
+        coin_query.ID = GetCoinIDs().get_by_symbol(symbol=coin_query.symbol)
+        coin_data = QueryAssetPrice().get_ticker(coin_query=coin_query)
         return coin_data
 

@@ -19,7 +19,7 @@ class GetCoinIDs(object):
     def get_by_symbol(self, symbol):
 
         cur_result = self.get_IDs(querystring={"status":"ACTIVE", "symbol":symbol})
-        return cur_result["id"]
+        return cur_result["content"][0]["id"]
 
 
     def get_by_name(self, name):

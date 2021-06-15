@@ -13,26 +13,27 @@ class QueryAssetPrice(object):
             'x-rapidapi-key': api_key,
             'x-rapidapi-host': "bravenewcoin.p.rapidapi.com"
             }
-    def get_ticker(self, query_id):
+    def get_ticker(self, coin_query):
         '''
         
         '''
-        query_string = {"assetId":query_id}
+        query_string = {"assetId":coin_query.ID, "percentChange":"true"}
         response = requests.request("GET", self.url, headers=self.headers, params=query_string).json()
-        data = self.format_data(response)
+        data = self.format_data(coin_query, raw_response=response)
         return data 
 
-    def format_data(self, name, raw_response):
+    def format_data(self, coin_query, raw_response):
         '''
         
         '''
         response_data = raw_response["content"][0]
         cur_price = round(response_data["price"], 2)
-        percent_change_day = response_data["priceChangePercent"]["change24h"]+"%"
-        query_date = date.today()
-        query_time = datetime.now().time()
+        percent_change_day = response_data["pricePercentChange"]["change24h"]
+        query_date = str(date.today())
+        query_time = str(datetime.now().time())
         new_data_point = DataPoint(
-            coin_name=name,
+            coin_name=coin_query.name,
+            coin_symbol=coin_query.symbol,
             cur_price=cur_price,
             percent_change_day=percent_change_day,
             date=query_date,
@@ -40,27 +41,19 @@ class QueryAssetPrice(object):
 
         return new_data_point
 
-    def clean_results(self, raw_response):
-        '''Probably unnecessary method'''
-        response = dict()
-        raw_response = raw_response["content"][0]
-        response["price"] = round(raw_response["price"], 2)
-        response["day_change"] = raw_response["priceChangePercent"]["change24h"]+"%"
-        response["date"] = date.today()
-        response["time"] = datetime.now().time()
 
 class DataPoint(object):
     def __init__(self, coin_name=None, coin_symbol=None, cur_price=None, percent_change_day=None, date=None, time=None):
         self.coin_name = coin_name
         self.coin_symbol = coin_symbol
-        self.fullname = f"{self.coin_name}_{self.symbol}"
+        self.fullname = f"{self.coin_name}_{self.coin_symbol}"
         self.cur_price = cur_price
         self.percent_change_day = percent_change_day
         self.date = date
         self.time = time
 
     def __str__(self):
-        return f"{self.coin_name} ({self.coin_symbol})\nPrice: {self.cur_price}Change on the day: {self.percent_change_day}%\n{self.date} {self.time}"
+        return f"{self.coin_name} ({self.coin_symbol})\nPrice: {self.cur_price}\nChange on the day: {self.percent_change_day}%\n{self.date} {self.time}"
 
 '''{"content":
 [{"id":"8574072a-e614-4cc3-8b7d-1eb4fd4e7a43",

@@ -9,6 +9,14 @@ as well as a table for each crypto with the headers as follows:
 current_price_usd | percent_change_24h | query_date | query_time
 '''
 
+'''
+ONLY RUN TO RESET EXISTING DATABASE
+import os
+if os.path.exists("historic-crypto-prices.db"):
+    os.remove("historic-crypto-prices.db")
+'''
+
+
 import sqlite3
 import config as cfg
 
