@@ -2,7 +2,7 @@ from query_helper import CoinQuery
 import os
 
 
-DATABASE_PATH = ""
+DATABASE_PATH = "historic-crypto-prices.db"
 API_KEY = os.environ.get("API_KEY")
 
 COINS_OF_INTEREST = [

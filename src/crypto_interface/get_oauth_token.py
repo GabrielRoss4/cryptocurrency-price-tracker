@@ -2,6 +2,8 @@ import requests
 import config as cfg
 
 
+# Cache OAuth token for 24h
+
 class GetOAuthToken(object):
     def __init__(self, api_key=cfg.API_KEY):
         self.url = "https://bravenewcoin.p.rapidapi.com/oauth/token"
