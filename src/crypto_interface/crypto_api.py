@@ -1,5 +1,5 @@
-from crypto_interface.get_coin_IDs import GetCoinIDs
-from crypto_interface.query_asset_price import QueryAssetPrice, DataPoint
+from src.crypto_interface.get_coin_IDs import GetCoinIDs
+from src.crypto_interface.query_asset_price import QueryAssetPrice, DataPoint
 import config as cfg
 
 # I don't like that I'm importing config in two files (this one and query_asset_price)

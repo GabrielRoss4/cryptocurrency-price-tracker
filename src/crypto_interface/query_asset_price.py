@@ -1,6 +1,6 @@
 import requests
 import config as cfg
-from crypto_interface.get_oauth_token import GetOAuthToken
+from src.crypto_interface.get_oauth_token import GetOAuthToken
 from datetime import date, datetime
 
 
