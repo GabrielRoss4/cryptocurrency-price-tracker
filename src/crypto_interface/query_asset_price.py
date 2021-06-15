@@ -55,16 +55,6 @@ class DataPoint(object):
     def __str__(self):
         return f"{self.coin_name} ({self.coin_symbol})\nPrice: {self.cur_price}\nChange on the day: {self.percent_change_day}%\n{self.date} {self.time}"
 
-'''{"content":
-[{"id":"8574072a-e614-4cc3-8b7d-1eb4fd4e7a43",
-"assetId":"f1ff77b6-3ab4-4719-9ded-2fc7e71cff1f",
-"timestamp":"2021-06-12T04:45:00.000Z","marketCapRank":1,"volumeRank":1,
-"price":35276.47924181477,"volume":380008.46661038435,"totalSupply":18732787,
-"freeFloatSupply":18729886,"marketCap":660724434680.5571,"totalMarketCap":660826771746.8375,
-"marketCapPercentChange":{"change24h":-4.61,"change7d":-6.04,"change30d":-30.03},
-"totalMarketCapPercentChange":{"change24h":-4.61,"change7d":-6.04,"change30d":-30.03},
-"volumePercentChange":{"change24h":-11.38,"change7d":14.21,"change30d":-30.22},
-"pricePercentChange":{"change24h":-4.61,"change7d":-6.07,"change30d":-30.12}}]}'''
 
 
 

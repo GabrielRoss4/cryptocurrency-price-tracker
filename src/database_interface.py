@@ -17,8 +17,6 @@ class DatabaseAPI(object):
 
         Logs data point in appropriate SQLite table
         '''
-
-        #coin_fullname = f"{datapoint.name} ({datapoint.symbol})"
         
         base_sql_cmd = f'''INSERT INTO {datapoint.fullname}(current_price_usd, percent_change_24h, query_date, query_time)
         VALUES(?, ?, ?, ?)'''
@@ -27,7 +25,7 @@ class DatabaseAPI(object):
             self.cursor.execute(base_sql_cmd, (datapoint.cur_price, datapoint.percent_change_day, datapoint.date, datapoint.time))
             self.connection.commit()
             return True
-        except: # Catch specific exceptions
+        except: 
             print("Failed to add entry to database")
             print_exc()
             return False
@@ -42,7 +40,7 @@ class DatabaseAPI(object):
         Returns closest data point in time if matches for 
         coin_name and no matches for date/time.
         '''
-        #coin_fullname = f"{datapoint.name} ({datapoint.symbol})"
+
         base_sql_cmd = f'''SELECT * FROM {datapoint.fullname} WHERE query_date=? AND query_time=?'''
 
         try:

@@ -1,10 +1,3 @@
-
-# FOR TESTING ONLY TO ENSURE FRESH DATABASE FOR INITIALIZATION SCRIPT
-import os
-if os.path.exists("historic-crypto-prices.db"):
-    os.remove("historic-crypto-prices.db")
-
-
 import config as cfg
 from src.database_interface import DatabaseAPI
 from src.crypto_interface.crypto_api import CryptoAPI
