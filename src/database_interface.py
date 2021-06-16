@@ -24,7 +24,7 @@ class DatabaseAPI(object):
         try:
             self.cursor.execute(base_sql_cmd, (datapoint.cur_price, datapoint.percent_change_day, datapoint.query_datetime))
             self.connection.commit()
-            print(str(datapoint))
+            #print(str(datapoint))
             return True
         except: 
             print("Failed to add entry to database")
