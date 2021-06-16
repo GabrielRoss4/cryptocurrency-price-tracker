@@ -9,12 +9,12 @@ as well as a table for each crypto with the headers as follows:
 current_price_usd | percent_change_24h | query_date | query_time
 '''
 
-'''
-ONLY RUN TO RESET EXISTING DATABASE
+
+""" #ONLY RUN TO RESET EXISTING DATABASE
 import os
 if os.path.exists("historic-crypto-prices.db"):
-    os.remove("historic-crypto-prices.db")
-'''
+    os.remove("historic-crypto-prices.db") """
+
 
 
 import sqlite3
@@ -32,7 +32,7 @@ for crypto in cfg.COINS_OF_INTEREST:
     cursor.execute(f"INSERT OR IGNORE INTO Master(all_tracked_cryptos) VALUES(?)", (crypto.fullname,))
     connection.commit()
     # Create all tables from config that dont exist 
-    cursor.execute(f"CREATE TABLE IF NOT EXISTS {crypto.fullname}(current_price_usd, percent_change_24h, query_date, query_time, PRIMARY KEY(query_date, query_time))")
+    cursor.execute(f"CREATE TABLE IF NOT EXISTS {crypto.fullname}(current_price_usd, percent_change_24h, query_datetime, PRIMARY KEY(query_datetime))")
     connection.commit()
 
 connection.close()

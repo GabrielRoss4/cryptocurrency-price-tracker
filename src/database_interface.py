@@ -18,12 +18,13 @@ class DatabaseAPI(object):
         Logs data point in appropriate SQLite table
         '''
         
-        base_sql_cmd = f'''INSERT INTO {datapoint.fullname}(current_price_usd, percent_change_24h, query_date, query_time)
-        VALUES(?, ?, ?, ?)'''
+        base_sql_cmd = f'''INSERT INTO {datapoint.fullname}(current_price_usd, percent_change_24h, query_datetime)
+        VALUES(?, ?, ?)'''
 
         try:
-            self.cursor.execute(base_sql_cmd, (datapoint.cur_price, datapoint.percent_change_day, datapoint.date, datapoint.time))
+            self.cursor.execute(base_sql_cmd, (datapoint.cur_price, datapoint.percent_change_day, datapoint.query_datetime))
             self.connection.commit()
+            print(str(datapoint))
             return True
         except: 
             print("Failed to add entry to database")
@@ -41,10 +42,10 @@ class DatabaseAPI(object):
         coin_name and no matches for date/time.
         '''
 
-        base_sql_cmd = f'''SELECT * FROM {datapoint.fullname} WHERE query_date=? AND query_time=?'''
+        base_sql_cmd = f'''SELECT * FROM {datapoint.fullname} WHERE query_datetime = ?'''
 
         try:
-            self.cursor.execute(base_sql_cmd, (datapoint.date, datapoint.time))
+            self.cursor.execute(base_sql_cmd, (datapoint.query_datetime))
             query_result = self.cursor.fetchone()
             print("Exact match found")
         except:
@@ -54,8 +55,8 @@ class DatabaseAPI(object):
         if not query_result:
             print("No exact match. Fetching nearest datapoint.")
             try:
-                base_sql_cmd = f'''SELECT * FROM {datapoint.fullname} ORDER BY ABS(? - query_date), ABS(? - query_time) LIMIT 1'''
-                self.cursor.execute(base_sql_cmd, (datapoint.date, datapoint.time))
+                base_sql_cmd = f'''SELECT * FROM {datapoint.fullname} ORDER BY ABS(? - query_datetime) LIMIT 1'''
+                self.cursor.execute(base_sql_cmd, (datapoint.query_datetime))
                 query_result = self.cursor.fetchone()
             except:
                 print("Unable to fetch closest datapoint")
@@ -74,8 +75,8 @@ class DatabaseAPI(object):
         if cur_point:
             if input(f"Deleting {str(cur_point)}. Confirm y/n\n") == "y":
                 try:
-                    base_sql_cmd = f"DELETE FROM {cur_point.fullname} WHERE current_price_usd=? AND percent_change_24h=? AND query_date=? AND query_time=?"
-                    self.cursor.execute(base_sql_cmd, (cur_point.cur_price, cur_point.percent_change_day, cur_point.date, cur_point.time))
+                    base_sql_cmd = f"DELETE FROM {cur_point.fullname} WHERE current_price_usd=? AND percent_change_24h=? AND query_datetime=?"
+                    self.cursor.execute(base_sql_cmd, (cur_point.cur_price, cur_point.percent_change_day, cur_point.query_datetime))
                     return True
                 except:
                     print("Unable to delete datapoint")

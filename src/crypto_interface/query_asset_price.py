@@ -1,7 +1,7 @@
 import requests
 import config as cfg
 from src.crypto_interface.get_oauth_token import GetOAuthToken
-from datetime import date, datetime
+from datetime import datetime
 
 
 class QueryAssetPrice(object):
@@ -29,31 +29,29 @@ class QueryAssetPrice(object):
         response_data = raw_response["content"][0]
         cur_price = round(response_data["price"], 2)
         percent_change_day = response_data["pricePercentChange"]["change24h"]
-        query_date = str(date.today())
-        query_time = str(datetime.now().time())
+        query_datetime = str(datetime.now())
         new_data_point = DataPoint(
             coin_name=coin_query.name,
             coin_symbol=coin_query.symbol,
             cur_price=cur_price,
             percent_change_day=percent_change_day,
-            date=query_date,
-            time=query_time)
+            query_datetime=query_datetime
+        )
 
         return new_data_point
 
 
 class DataPoint(object):
-    def __init__(self, coin_name=None, coin_symbol=None, cur_price=None, percent_change_day=None, date=None, time=None):
+    def __init__(self, coin_name=None, coin_symbol=None, cur_price=None, percent_change_day=None, query_datetime=None):
         self.coin_name = coin_name
         self.coin_symbol = coin_symbol
         self.fullname = f"{self.coin_name}_{self.coin_symbol}"
         self.cur_price = cur_price
         self.percent_change_day = percent_change_day
-        self.date = date
-        self.time = time
+        self.query_datetime = query_datetime
 
     def __str__(self):
-        return f"{self.coin_name} ({self.coin_symbol})\nPrice: {self.cur_price}\nChange on the day: {self.percent_change_day}%\n{self.date} {self.time}"
+        return f"{self.coin_name} ({self.coin_symbol})\nPrice: {self.cur_price}\nChange on the day: {self.percent_change_day}%\n{self.query_datetime}"
 
 
 
